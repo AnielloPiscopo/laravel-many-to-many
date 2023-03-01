@@ -10,6 +10,10 @@ class Technology extends Model
     use HasFactory;
 
     protected $fillable = array('name' , 'slug');
+
+    public function projects(){
+        return $this->belongsToMany(Project::class);
+    }
     
     public function getRouteKeyName(): string
     {
