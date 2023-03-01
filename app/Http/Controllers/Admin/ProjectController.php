@@ -13,6 +13,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Project;
+use App\Models\Technology;
 use App\Models\Type;
 use Illuminate\Console\View\Components\Confirm;
 use Illuminate\Http\Request;
@@ -30,6 +31,7 @@ class ProjectController extends Controller
         'description' => 'required|min:10',
         'slug' => 'string|unique:projects|between:2,255',
         'img_path' => 'required|unique:projects|image|max:300',
+        'technologies' => 'array|exists:technologies,id',
     ];
 
     protected $messages = [
@@ -67,7 +69,9 @@ class ProjectController extends Controller
     public function create(Project $project)
     {
         $types = Type::all();
-        return view('admin.pages.projects.create' , compact('project' , 'types'));
+        $technologies = Technology::all();
+        dd($technologies);
+        return view('admin.pages.projects.create' , compact('project' , 'types' , 'technologies'));
     }
 
     /**
@@ -86,6 +90,7 @@ class ProjectController extends Controller
         
         $newProject -> fill($formData);
         $newProject->save();
+        $newProject->technologies()->sync($formData['technologies']);
 
         $successMessage = "
             <div class='my_alert-popup my_success'>
@@ -118,7 +123,8 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         $types = Type::all();
-        return view('admin.pages.projects.edit' , compact('project' , 'types'));
+        $technologies = Technology::all();
+        return view('admin.pages.projects.edit' , compact('project' , 'types' , 'technologies'));
     }
 
     /**
@@ -148,7 +154,8 @@ class ProjectController extends Controller
         }
 
         $project->update($formData);
-
+        $project->technologies()->sync($formData['technologies']);
+        
         $successMessage = "
             <div class='my_alert-popup my_success'>
                 <h1 class='fw-bold'>Congratulazioni!</h3>

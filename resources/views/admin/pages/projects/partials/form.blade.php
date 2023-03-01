@@ -17,12 +17,11 @@
   @csrf
   @method($formMethod)
 
-  @dump($types)
-
   <div class="card">
     <div class="card-header">
       <h2 class="text-center m-0 p-3 fw-bold">{{$formMethod === 'POST' ? 'Create a new project' : "Edit the project '$project->title'"}}</h2>
     </div>
+
     <div class="card-body">
       <div class="form-outline mb-3">
         <label for="type_name" class="form-label">Type</label>
@@ -31,6 +30,15 @@
               <option value="{{$type->id}}" {{old('type_id' , $project->type_id) == $type->id ? 'selected' : ''}}>{{$type->name}}</option>
           @endforeach
         </select>
+      </div>
+      
+      <div class="form-outline mb-3">
+        @foreach ($technologies as $technology)
+        <div class="form-check">
+          <label for="technologies" class="form-check-label">{{$technology->name}}</label>
+          <input type="checkbox" name="technologies[]" id="technologies" class="form-check-input" value="{{$technology->id}}" @if ($errors->any()) @checked(in_array($technology_id,old('technologies' , []))) @else @checked($project->technologies->contains($technology->id)) @endif>
+        </div>
+        @endforeach
       </div>
 
       <div class="form-outline mb-3">
