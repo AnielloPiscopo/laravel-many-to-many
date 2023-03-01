@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Type;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 use Faker\Generator as Faker;
 
 class TypesTableSeeder extends Seeder
@@ -21,6 +22,7 @@ class TypesTableSeeder extends Seeder
         foreach($types as $type){
             $newType = new Type();
             $newType->name = $type;
+            $newType->slug = Str::slug($newType->name);
             $newType->vanilla = $faker->boolean();
             $newType->save();
         }

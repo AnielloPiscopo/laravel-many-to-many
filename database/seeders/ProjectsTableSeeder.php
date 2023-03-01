@@ -23,7 +23,7 @@ class ProjectsTableSeeder extends Seeder
             $newProject = new Project();
             $newProject->type_id = Type::inRandomOrder()->first()->id;
             $newProject->title = $faker->unique()->words(5,true);
-            $newProject->slug = Str::of($newProject->title)->slug('-');
+            $newProject->slug = Str::slug($newProject->title);
             $newProject->description = $faker->paragraph(10);
             $newProject->img_path = $faker->unique()->imageUrl();
             $newProject->save();
