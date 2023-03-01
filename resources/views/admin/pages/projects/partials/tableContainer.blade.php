@@ -10,11 +10,11 @@
 @php
 $tableElements=[
     'id',
-    'type_name',
-    'type_vanilla',
     'title',
     'description',
     'img_path',
+    'type_name',
+    'technology',
 ];    
 @endphp
 
@@ -63,11 +63,17 @@ $tableElements=[
         @foreach ($projects as $project)
           <tr>
               <th scope="row">{{$project->id}}</th>
-              <td>{{$project->type->name}}</td>
-              <td>{{$project->fromStringToBoolean($project->type->vanilla)}}</td>
               <td>{{$project->title}}</td>
               <td>{{$project->description}}</td>
               <td>{{$project->img_path}}</td>
+              <td>{{$project->type->name}}</td>
+              <td>
+                @forelse ($project->technologies as $technology)
+                <div>{{$technology->name}}</div>
+                @empty
+                <div>No technologies</div>
+                @endforelse
+              </td>
               <td>
                 <a href="{{route('admin.pages.projects.show' , $project->slug)}}" class="my_btn btn btn-primary">Show</a>
                 @if ($projectsRoute === 'index')

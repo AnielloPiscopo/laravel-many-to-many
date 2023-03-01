@@ -30,6 +30,20 @@
         alt="{{ $project->title }} image" class="img-fluid">
     </div>
 
+    <div class="d-flex align-items-center">
+        <h4>Type:</h4>
+        <span>{{$project->type->name}}</span>
+    </div>
+
+    <div class="d-flex align-items-center">
+        <h4>Categories:</h4>
+        <div>
+            @foreach($project->technologies as $technology)
+            <span>{{$technology->name}}</span>
+            @endforeach
+        </div>
+    </div>
+
     <ul>
         @foreach ($listElements as $listEl)
             <li>{{$listEl . ':' . $project->$listEl}}</li> 
