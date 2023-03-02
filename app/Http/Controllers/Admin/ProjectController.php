@@ -70,7 +70,6 @@ class ProjectController extends Controller
     {
         $types = Type::all();
         $technologies = Technology::all();
-        dd($technologies);
         return view('admin.pages.projects.create' , compact('project' , 'types' , 'technologies'));
     }
 
